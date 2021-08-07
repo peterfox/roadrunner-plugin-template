@@ -1,0 +1,35 @@
+name: coverage
+
+on:
+  push:
+    branches: [ master, main ]
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - uses: actions/setup-go@v2
+        with:
+          go-version: 1.16
+
+      - name: Init Go modules Cache # Docs: <https://git.io/JfAKn#go---modules>
+        uses: actions/cache@v2
+        with:
+          path: ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: ${{ runner.os }}-go-
+
+      - name: Install Go dependencies
+        run: go mod download
+
+      - name: Run Unit tests
+        run: go test -race -covermode=atomic -coverprofile /tmp/coverage.txt ./...
+
+      - name: Upload Coverage report to CodeCov
+        continue-on-error: true
+        uses: codecov/codecov-action@v1 # https://github.com/codecov/codecov-action
+        with:
+          file: /tmp/coverage.txt
