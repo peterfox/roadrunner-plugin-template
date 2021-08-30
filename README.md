@@ -31,7 +31,8 @@ This repo can be used to scaffold a RoadRunner Plugin. Follow these steps to get
 6. Update the contributors in the README.md.
 7. Update the README.md references to the plugin, installation and usage.
 8. Update the badges at the top of README.md to point to your own repository.
-9. Remove the todo section from your README.md
+9. Update the .github/FUNDING.yml file.
+10. Remove the todo section from your README.md
 
 </todo>
 
